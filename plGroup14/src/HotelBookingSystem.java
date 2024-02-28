@@ -88,15 +88,6 @@ public class HotelBookingSystem {
         }
     }
 
-    // Create a new booking
-    public void createBooking(String customerName, String date) {
-        HotelBooking booking = new HotelBooking(nextId++, customerName, date);
-        bookings.add(booking);
-        saveBookingsToFile(); // Save bookings to file after creation
-        System.out.println("Booking created successfully.");
-    }
-
-
     // Read all bookings
     public void readAllBookings() {
         System.out.println("All Bookings:");
