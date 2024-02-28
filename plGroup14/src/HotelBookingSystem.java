@@ -1,7 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+// Jap Kyle Malazarte
 class HotelBooking {
     private int id;
     private String customerName;
@@ -42,11 +46,33 @@ class HotelBooking {
 public class HotelBookingSystem {
     private List<HotelBooking> bookings;
     private int nextId;
+    private final String FILENAME = "bookings.txt";
 
     public HotelBookingSystem() {
         bookings = new ArrayList<>();
         nextId = 1;
+        loadBookingsFromFile(); // Load bookings from file on initialization
     }
+
+    // Load bookings from file
+    private void loadBookingsFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                int id = Integer.parseInt(parts[0]);
+                String customerName = parts[1];
+                String date = parts[2];
+                bookings.add(new HotelBooking(id, customerName, date));
+                nextId = Math.max(nextId, id + 1); // Update nextId
+            }
+        } catch (IOException | NumberFormatException e) {
+            // Handle exceptions
+            e.printStackTrace();
+        }
+    }
+
+
 
     // Create a new booking
     public void createBooking(String customerName, String date) {
