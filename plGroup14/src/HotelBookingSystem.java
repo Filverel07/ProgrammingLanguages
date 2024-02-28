@@ -1,11 +1,8 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-// Jap Kyle Malazarte
+
 class HotelBooking {
     private int id;
     private String customerName;
@@ -41,12 +38,18 @@ class HotelBooking {
     public void setDate(String date) {
         this.date = date;
     }
+
+    // Override toString method to facilitate writing to file
+    @Override
+    public String toString() {
+        return id + "," + customerName + "," + date;
+    }
 }
 
 public class HotelBookingSystem {
     private List<HotelBooking> bookings;
     private int nextId;
-    private final String FILENAME = "bookings.txt";
+    private final String FILENAME = "C:\\Users\\Jap Kyle\\OneDrive\\Documents\\IntelliJ Projects\\ProgrammingLanguages\\plGroup14\\src\\bookings.txt";
 
     public HotelBookingSystem() {
         bookings = new ArrayList<>();
@@ -72,14 +75,27 @@ public class HotelBookingSystem {
         }
     }
 
-
+    // Save bookings to file
+    private void saveBookingsToFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME))) {
+            for (HotelBooking booking : bookings) {
+                bw.write(booking.toString());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            // Handle exceptions
+            e.printStackTrace();
+        }
+    }
 
     // Create a new booking
     public void createBooking(String customerName, String date) {
         HotelBooking booking = new HotelBooking(nextId++, customerName, date);
         bookings.add(booking);
+        saveBookingsToFile(); // Save bookings to file after creation
         System.out.println("Booking created successfully.");
     }
+
 
     // Read all bookings
     public void readAllBookings() {
