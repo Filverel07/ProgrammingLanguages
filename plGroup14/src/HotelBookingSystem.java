@@ -39,6 +39,7 @@ class HotelBooking {
         this.date = date;
     }
 
+
     // Override toString method to facilitate writing to file
     @Override
     public String toString() {
