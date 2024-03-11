@@ -22,20 +22,21 @@ public class AppointmentBookingApp {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter customer name: ");
-                    String customerName = scanner.nextLine();
-                    System.out.print("Enter date (YYYY-MM-DD): ");
-                    String date = scanner.nextLine();
-                    System.out.print("Enter time (HH:MM): ");
-                    String time = scanner.nextLine();
-                    System.out.print("Enter room type (Single, Double, Family): ");
-                    String roomType = scanner.nextLine();
-                    try {
-                        bookingSystem.createAppointment(customerName, date, time, roomType);
-                    } catch (SQLException e) {
-                        System.err.println("Error creating appointment: " + e.getMessage());
-                    }
-                    break;
+                System.out.print("Enter customer name: ");
+                String customerName = scanner.nextLine();
+                System.out.print("Enter date (YYYY-MM-DD): ");
+                String date = scanner.nextLine();
+                System.out.print("Enter time (HH:MM): ");
+                String time = scanner.nextLine();
+                System.out.print("Enter room type (Single, Double, Family): ");
+                String roomType = scanner.nextLine();
+                try {
+                    bookingSystem.createAppointment(customerName, date, time, roomType);
+                } catch (SQLException e) {
+                    System.err.println("Error creating appointment: " + e.getMessage());
+                }
+                break;
+
                 case 2:
                     try {
                         List<Appointment> appointments = bookingSystem.readAllAppointments();
@@ -57,7 +58,6 @@ public class AppointmentBookingApp {
                         System.out.print("Enter appointment ID to update: ");
                         int updateId = scanner.nextInt();
                         scanner.nextLine();  // Consume leftover newline character
-
 
                         String newCustomerName;
                         while (true) {
