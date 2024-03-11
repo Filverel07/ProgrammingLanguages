@@ -22,20 +22,64 @@ public class AppointmentBookingApp {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter customer name: ");
-                    String customerName = scanner.nextLine();
-                    System.out.print("Enter date (YYYY-MM-DD): ");
-                    String date = scanner.nextLine();
-                    System.out.print("Enter time (HH:MM): ");
-                    String time = scanner.nextLine();
-                    System.out.print("Enter room type (Single, Double, Family): ");
-                    String roomType = scanner.nextLine();
-                    try {
-                        bookingSystem.createAppointment(customerName, date, time, roomType);
-                    } catch (SQLException e) {
-                        System.err.println("Error creating appointment: " + e.getMessage());
+                    while (true) {
+                        try {
+                            System.out.print("Enter customer name: ");
+                            String customerName = scanner.nextLine();
+                            if (customerName.isEmpty()) {
+                                throw new IllegalArgumentException("Customer name cannot be blank.");
+                            }
+
+                            System.out.print("Enter date (YYYY-MM-DD): ");
+                            String date;
+                            while (true) {  // Loop for valid date
+                                date = scanner.nextLine();
+                                if (date.matches("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")) {
+                                    break;  // Exit the inner loop for valid date
+                                } else {
+                                    throw new IllegalArgumentException("Invalid date format. Please use YYYY-MM-DD.");
+                                }
+                            }
+
+                            System.out.print("Enter time (HH:MM): ");
+                            String time;
+                            while (true) {  // Loop for valid time
+                                time = scanner.nextLine();
+                                if (time.matches("^([0-1][0-9]|2[0-3]):([0-5][0-9])$")) {
+                                    break;  // Exit the inner loop for valid time
+                                } else {
+                                    throw new IllegalArgumentException("Invalid time format. Please use HH:MM.");
+                                }
+                            }
+
+                            System.out.print("Enter room type (Single, Double, Family): ");
+                            String roomType;
+                            while (true) {  // Loop for valid room type
+                                roomType = scanner.nextLine();
+                                if (roomType.matches("Single|Double|Family")) {
+                                    break;  // Exit the inner loop for valid room type
+                                } else {
+                                    throw new IllegalArgumentException("Invalid room type. Please choose Single, Double, or Family.");
+                                }
+                            }
+
+                            bookingSystem.createAppointment(customerName, date, time, roomType);
+                            System.out.println("Appointment created successfully.");
+                            break;  // Exit the outer loop if all inputs are valid
+                        } catch (IllegalArgumentException e) {
+                            System.err.println(e.getMessage());
+                        } catch (SQLException e) {
+                            System.err.println("Error creating appointment: " + e.getMessage());
+                        }
+                        System.out.println("Would you like to retry creating an appointment? (y/n)");
+                        String retry = scanner.nextLine().toLowerCase();
+                        if (!retry.equals("y")) {
+                            break; // Exit the outer loop if user doesn't want to retry
+                        }
                     }
+                    scanner.close();
                     break;
+
                 case 2:
                     try {
                         List<Appointment> appointments = bookingSystem.readAllAppointments();
@@ -57,7 +101,6 @@ public class AppointmentBookingApp {
                         System.out.print("Enter appointment ID to update: ");
                         int updateId = scanner.nextInt();
                         scanner.nextLine();  // Consume leftover newline character
-
 
                         String newCustomerName;
                         while (true) {
