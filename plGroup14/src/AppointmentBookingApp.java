@@ -17,6 +17,11 @@ public class AppointmentBookingApp {
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
 
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next();
+            }
+
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
 
