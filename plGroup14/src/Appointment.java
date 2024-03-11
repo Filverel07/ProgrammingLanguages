@@ -2,17 +2,19 @@ public class Appointment {
     private int id;
     private String customerName;
     private String date;
-    private String time;
     private String roomType;
+    private String checkIn;
+    private String checkOut;
 
-    public Appointment(int id, String customerName, String date, String time, String roomType) {
+    public Appointment(int id, String customerName, String date, String roomType, String checkIn, String checkOut) {
         this.id = id;
         this.customerName = customerName;
         this.date = date;
-        this.time = time;
         this.roomType = roomType;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
     }
-    //
+
     // Getters and setters
 
     public int getId() {
@@ -39,18 +41,32 @@ public class Appointment {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
     public String getRoomType() {
         return roomType;
     }
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public String getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public String getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        this.checkOut = checkOut;
+    }
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Customer Name: " + customerName + ", Date: " + date +
+                ", Room Type: " + roomType + ", Check-in: " + checkIn + ", Check-out: " + checkOut;
     }
 }
