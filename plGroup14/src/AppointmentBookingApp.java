@@ -28,8 +28,10 @@ public class AppointmentBookingApp {
                     String date = scanner.nextLine();
                     System.out.print("Enter time (HH:MM): ");
                     String time = scanner.nextLine();
+                    System.out.print("Enter room type (Single, Double, Family): ");
+                    String roomType = scanner.nextLine();
                     try {
-                        bookingSystem.createAppointment(customerName, date, time);
+                        bookingSystem.createAppointment(customerName, date, time, roomType);
                     } catch (SQLException e) {
                         System.err.println("Error creating appointment: " + e.getMessage());
                     }
@@ -43,7 +45,7 @@ public class AppointmentBookingApp {
                             System.out.println("\nAll Appointments:");
                             for (Appointment appointment : appointments) {
                                 System.out.println("ID: " + appointment.getId() + ", Customer Name: " + appointment.getCustomerName() +
-                                        ", Date: " + appointment.getDate() + ", Time: " + appointment.getTime());
+                                        ", Date: " + appointment.getDate() + ", Time: " + appointment.getTime() + ", Room Type: " + appointment.getRoomType());
                             }
                         }
                     } catch (SQLException e) {
@@ -86,9 +88,18 @@ public class AppointmentBookingApp {
                             }
                             System.out.println("Time cannot be blank. Please enter a time.");
                         }
+                        String newRoomType;
+                        while (true) {
+                            System.out.print("Enter new Room Type (Single, Double, Family): ");
+                            newRoomType = scanner.nextLine();
+                            if (!newRoomType.isEmpty()) {
+                                break;  // Valid time entered
+                            }
+                            System.out.println("Room Type cannot be blank. Please enter a type of room.");
+                        }
 
                         try {
-                            bookingSystem.updateAppointment(updateId, newCustomerName, newDate, newTime);
+                            bookingSystem.updateAppointment(updateId, newCustomerName, newDate, newTime, newRoomType);
                             System.out.println("Appointment updated successfully.");
                             break;  // Exit the outer while loop after successful update
                         } catch (SQLException e) {
