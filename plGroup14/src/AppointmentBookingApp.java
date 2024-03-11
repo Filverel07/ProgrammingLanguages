@@ -60,21 +60,57 @@ public class AppointmentBookingApp {
         scanner.nextLine();
         System.out.print("Enter customer name: ");
         String customerName = scanner.nextLine();
+
+        // Regex pattern to match alphabetic characters and spaces
+        String nameRegex = "^[a-zA-Z ]+$";
+
+        while (!customerName.matches(nameRegex)) {
+            System.out.println("Invalid customer name. Please enter a name without special characters or numbers.");
+            System.out.print("Enter customer name: ");
+            customerName = scanner.nextLine();
+        }
+
+        String dateRegex = "\\d{4}-\\d{2}-\\d{2}";
+        String roomTypeRegex = "(Single|Double|Family)";
+
         System.out.print("Enter date (YYYY-MM-DD): ");
         String date = scanner.nextLine();
+        while (!date.matches(dateRegex)) {
+            System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+            System.out.print("Enter date (YYYY-MM-DD): ");
+            date = scanner.nextLine();
+        }
+
         System.out.print("Enter room type (Single, Double, Family): ");
         String roomType = scanner.nextLine();
+        while (!roomType.matches(roomTypeRegex)) {
+            System.out.println("Invalid room type. Please enter Single, Double, or Family.");
+            System.out.print("Enter room type (Single, Double, Family): ");
+            roomType = scanner.nextLine();
+        }
 
         // Consume newline character
         scanner.nextLine();
 
         System.out.print("Enter check-in date (YYYY-MM-DD): ");
         String checkIn = scanner.nextLine();
+        while (!checkIn.matches(dateRegex)) {
+            System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+            System.out.print("Enter check-in date (YYYY-MM-DD): ");
+            checkIn = scanner.nextLine();
+        }
+
         System.out.print("Enter check-out date (YYYY-MM-DD): ");
         String checkOut = scanner.nextLine();
+        while (!checkOut.matches(dateRegex)) {
+            System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+            System.out.print("Enter check-out date (YYYY-MM-DD): ");
+            checkOut = scanner.nextLine();
+        }
 
         bookingSystem.createAppointment(customerName, date, roomType, checkIn, checkOut);
     }
+
 
 
     private void readAllAppointments() {
