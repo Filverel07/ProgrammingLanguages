@@ -3,13 +3,14 @@ public class Appointment {
     private String customerName;
     private String date;
     private String time;
+    private String roomType;
 
-    public Appointment(int id, String customerName, String date, String time) {
+    public Appointment(int id, String customerName, String date, String time, String roomType) {
         this.id = id;
         this.customerName = customerName;
         this.date = date;
         this.time = time;
-
+        this.roomType = roomType;
     }
 
     // Getters and setters
@@ -44,5 +45,12 @@ public class Appointment {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 }
