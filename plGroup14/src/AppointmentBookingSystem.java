@@ -9,16 +9,42 @@ public class AppointmentBookingSystem {
     private static final String password="";
 
     public void createAppointment(String customerName, String date, String time, String roomType) throws SQLException {
+
         Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO appointments (customer_name, date, time, room_type) VALUES (?, ?, ?, ?)");
-        statement.setString(1, customerName);
-        statement.setString(2, date);
-        statement.setString(3, time);
-        statement.setString(4, roomType);
-        statement.executeUpdate();
-        statement.close();
-        connection.close();
-        System.out.println("Appointment created successfully.");
+
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO appointments (customer_name, date, time, room_type) VALUES (?, ?, ?, ?)")) {
+
+            // Validate and set appointment details
+            if (customerName.isEmpty()) {
+                throw new IllegalArgumentException("Customer name cannot be blank.");
+            }
+            statement.setString(1, customerName);
+
+            if (!date.matches("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")) {
+                throw new IllegalArgumentException("Invalid date format. Please use YYYY-MM-DD.");
+            }
+            statement.setString(2, date);
+
+            if (!time.matches("^([0-1][0-9]|2[0-3]):([0-5][0-9])$")) {
+                throw new IllegalArgumentException("Invalid time format. Please use HH:MM.");
+            }
+            statement.setString(3, time);
+
+            if (!roomType.matches("Single|Double|Family")) {
+                throw new IllegalArgumentException("Invalid room type. Please choose Single, Double, or Family.");
+            }
+            statement.setString(4, roomType);
+
+            // Execute the statement and close resources within the try-with-resources block
+            statement.executeUpdate();
+            System.out.println("Appointment created successfully.");
+
+        } finally {
+            // Ensure connection is closed even if an exception occurs
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 
     public List<Appointment> readAllAppointments() throws SQLException {

@@ -12,7 +12,7 @@ public class Appointment {
         this.time = time;
         this.roomType = roomType;
     }
-
+    //
     // Getters and setters
 
     public int getId() {
